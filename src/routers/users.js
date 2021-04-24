@@ -16,6 +16,34 @@ route.post('/signup',async (req, res) => {
     })
 })
 
+route.put('/users/:id',async (req, res) => {
+    const _id = req.params.id
+    User.findByIdAndUpdate(_id,req.body)
+    .then((value)=>{
+        if(!value){
+            return res.status(404).send()
+        }
+        res.send(value)
+    })
+    .catch((e)=>{
+        res.status(500).send(e)
+    })
+})
+
+route.delete('/users/:id',async (req, res) => {
+    const _id = req.params.id
+    User.findByIdAndDelete(_id,req.body)
+    .then((value)=>{
+        if(!value){
+            return res.status(404).send()
+        }
+        res.status(200).json({"success":"User-DELETED"})
+    })
+    .catch((e)=>{
+        res.status(500).send(e)
+    })
+})
+
 route.get('/users',async (req, res)=>{
     await User.find({})
     .then((value)=>{
