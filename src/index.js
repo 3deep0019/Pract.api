@@ -13,4 +13,4 @@ app.use(require('./routers/users'))
 
 
 
-app.listen(port)
+app.listen(port,()=> console.log(`Server running at PORT ${port}`))
