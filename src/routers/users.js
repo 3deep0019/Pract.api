@@ -1,8 +1,9 @@
 const express = require('express')
 const User = require('../models/UserModel')
+const cors = require('cors')
 const route = express.Router()
 
-route.post('/signup',async (req, res) => {
+route.post('/signup',cors(),async (req, res) => {
     
     let user = new User(req.body)
     await user.save()
@@ -16,7 +17,7 @@ route.post('/signup',async (req, res) => {
     })
 })
 
-route.put('/users/:id',async (req, res) => {
+route.put('/users/:id',cors(),async (req, res) => {
     const _id = req.params.id
     User.findByIdAndUpdate(_id,req.body)
     .then((value)=>{
@@ -30,7 +31,7 @@ route.put('/users/:id',async (req, res) => {
     })
 })
 
-route.delete('/users/:id',async (req, res) => {
+route.delete('/users/:id',cors(),async (req, res) => {
     const _id = req.params.id
     User.findByIdAndDelete(_id,req.body)
     .then((value)=>{
@@ -44,7 +45,7 @@ route.delete('/users/:id',async (req, res) => {
     })
 })
 
-route.get('/users',async (req, res)=>{
+route.get('/users',cors(),async (req, res)=>{
     await User.find({})
     .then((value)=>{
         res.send(value)
@@ -55,7 +56,7 @@ route.get('/users',async (req, res)=>{
     })
 })
 
-route.get('/users/:id',(req, res)=>{
+route.get('/users/:id',cors(),(req, res)=>{
     const _id = req.params.id
     User.findById(_id)
     .then((value)=>{
