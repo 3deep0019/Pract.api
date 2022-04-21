@@ -2,6 +2,8 @@ const express = require('express')
 const User = require('../models/UserModel')
 const cors = require('cors')
 const route = express.Router()
+const jwt = require('jsonwebtoken');
+
 
 var corsOptions ={
     "origin": "*",
@@ -75,5 +77,20 @@ route.get('/users/:id',cors(corsOptions),(req, res)=>{
         res.status(500).send(e)
     })
 })
+
+route.get('/tokenString',cors(corsOptions),(req,res)=>{
+    res.send(_tokenGenerator())
+})
+
+const _tokenGenerator = () => {
+    const accessToken = {
+        ExpiresAt: Date.now() + 15 * 24 * 60 * 60 * 1000,
+        Type: 'Application',
+    };
+    accessToken.TokenString = jwt.sign(accessToken, 'MDA3IDAwNyAwMDcgMDA3', {
+        algorithm: 'HS256',
+    });
+    return accessToken;
+};
 
 module.exports = route
